@@ -1,6 +1,6 @@
 // main.js  
-import { fetchImages } from './src/js/pixabay-api.js';  
-import { renderImages, showAlert } from './src/js/render-functions.js';  
+import { fetchImages } from './js/pixabay-api.js';  
+import { renderImages, showAlert } from './js/render-functions.js';  
 import iziToast from 'izitoast';  
 import 'izitoast/dist/css/iziToast.min.css';  
 import SimpleLightbox from 'simplelightbox';  
