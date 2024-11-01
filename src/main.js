@@ -13,23 +13,26 @@ const gallery = new SimpleLightbox('.gallery a');
 const form = document.querySelector('.js-search');  
 const loader = document.querySelector('.loader');  
 
+// Ініціалізація лоадера (приховати лоадер на початку)  
+loader.classList.remove('show');  
+
 // Додаємо обробник події для форми  
 form.addEventListener('submit', async (event) => {  
-event.preventDefault(); // Зупиняємо стандартну обробку форми  
+    event.preventDefault(); // Зупиняємо стандартну обробку форми  
 
-const query = event.target.elements.search.value.trim();  
-if (query === '') {  
-return showAlert('Please enter a search term!'); // Попередження, якщо поле пусте  
-}  
+    const query = event.target.elements.search.value.trim();  
+    if (query === '') {  
+        return showAlert('Please enter a search term!'); // Попередження, якщо поле пусте  
+    }  
 
-loader.classList.add('show'); // Показуємо індикатор завантаження  
-try {  
-const images = await fetchImages(query); // Виклик до API для отримання зображень  
-renderImages(images); // Рендеримо отримані зображення  
-gallery.refresh(); // Оновлюємо SimpleLightbox  
-} catch (error) {  
-showAlert('Failed to fetch images.'); // Помилка при отриманні зображень  
-} finally {  
-loader.classList.remove('show'); // Сховуємо індикатор завантаження  
-}  
+    loader.classList.add('show'); // Показуємо індикатор завантаження  
+    try {  
+        const images = await fetchImages(query); // Виклик до API для отримання зображень  
+        renderImages(images); // Рендеримо отримані зображення  
+        gallery.refresh(); // Оновлюємо SimpleLightbox  
+    } catch (error) {  
+        showAlert('Failed to fetch images.'); // Помилка при отриманні зображень  
+    } finally {  
+        loader.classList.remove('show'); // Сховуємо індикатор завантаження  
+    }  
 });
