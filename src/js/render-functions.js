@@ -1,34 +1,37 @@
-// render-functions.js  
-export const renderImages = (images) => {  
-const gallery = document.querySelector('.gallery');  
-gallery.innerHTML = ''; // Очищаємо галерею перед новим рендерингом  
+// render-functions.js
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-if (images.length === 0) {  
-showAlert('Sorry, there are no images matching your search query. Please try again!');  
-return;  
-}  
+export const renderImages = (images) => {
+    const gallery = document.querySelector('.gallery');
+    gallery.innerHTML = ''; // Очищаємо галерею перед новим рендерингом
 
-const markup = images.map(image => `  
-<a href="${image.largeImageURL}">  
-<div class="gallery-item">  
-<img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />  
-<div class="info">  
-<p>Likes: ${image.likes}</p>  
-<p>Views: ${image.views}</p>  
-<p>Comments: ${image.comments}</p>  
-<p>Downloads: ${image.downloads}</p>  
-</div>  
-</div>  
-</a>  
-`).join('');  
+    if (images.length === 0) {
+        showAlert('Sorry, there are no images matching your search query. Please try again!');
+        return;
+    }
 
-gallery.insertAdjacentHTML('beforeend', markup);  
-};  
+    const markup = images.map(image => `
+        <a href="${image.largeImageURL}">
+            <div class="gallery-item">
+                <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+                <div class="info">
+                    <p>Likes: ${image.likes}</p>
+                    <p>Views: ${image.views}</p>
+                    <p>Comments: ${image.comments}</p>
+                    <p>Downloads: ${image.downloads}</p>
+                </div>
+            </div>
+        </a>
+    `).join('');
 
-export const showAlert = (message) => {  
-iziToast.error({  
-title: 'Error',  
-message: message,  
-position: 'topRight',  
-});  
+    gallery.insertAdjacentHTML('beforeend', markup);
+};
+
+export const showAlert = (message) => {
+    iziToast.error({
+        title: 'Error',
+        message: message,
+        position: 'topRight',
+    });
 };
