@@ -1,41 +1,38 @@
-import { fetchImages } from './js/pixabay-api';
-import { renderImages } from './js/render-functions';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import { fetchImages } from './js/pixabay-api'; // Импорт функции для получения изображений из Pixabay  
+import { renderImages } from './js/render-functions'; // Импорт функции для отображения изображений  
+import iziToast from 'izitoast'; // Импорт библиотеки для уведомлений  
+import 'izitoast/dist/css/iziToast.min.css'; // Импорт стилей для iziToast  
 
-const form = document.querySelector('.search-form');
-const loader = document.querySelector('.loader');
-const gallery = document.querySelector('.gallery');
+// Получение элементов из DOM  
+const form = document.querySelector('.js-search'); // Форма поиска  
+const loader = document.querySelector('.loader'); // Элемент загрузки  
+const gallery = document.querySelector('.gallery'); // Галерея для отображения изображений  
 
-form.addEventListener('submit', async (event) => {
-  event.
-  even
-preventDefault();
-  const query = event.currentTarget.elements.searchQuery.value.trim();
+// Добавление обработчика события на отправку формы  
+form.addEventListener('submit', async (event) => {  
+  event.preventDefault(); // Предотвращаем стандартное поведение формы  
 
-  if (!query) {
-    iziToast.error({ title: 'Error', message: 'Please enter a search query' });
-    return;
-  }
+  const query = event.currentTarget.elements.search.value.trim(); // Получение значения из поля поиска  
 
-  loader.style.display = 'block';
-  gallery.innerHTML = ''; 
+  if (!query) { // Проверка на пустой запрос  
+    iziToast.error({ title: 'Error', message: 'Please enter a search query' });  
+    return; // Прерываем выполнение, если запрос пустой  
+  }  
 
-  try {
-    
-  
-const data = await fetchImages(query);
-    loader.style.display = 'none';
+  loader.style.display = 'block'; // Отображаем загрузчик  
+  gallery.innerHTML = ''; // Очищаем галерею перед новым запросом  
 
-    if (data.hits.length === 0) {
-      iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });
-    } else {
-      renderImages(data.hits);
-    }
-  } 
-   
-catch (error) {
-    loader.style.display = 'none';
-    iziToast.error({ title: 'Error', message: error.message }); 
-  }
+  try {  
+    const data = await fetchImages(query); // Получаем данные от API  
+    loader.style.display = 'none'; // Скрываем загрузчик  
+
+    if (data.hits.length === 0) { // Проверка наличия результата  
+      iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });  
+    } else {  
+      renderImages(data.hits); // Рендерим изображения, если есть результаты  
+    }  
+  } catch (error) { // Обработка ошибок  
+    loader.style.display = 'none'; // Скрываем загрузчик  
+    iziToast.error({ title: 'Error', message: error.message }); // Выводим сообщение об ошибке  
+  }  
 });
