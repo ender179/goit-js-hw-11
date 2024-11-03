@@ -3,14 +3,15 @@ import { renderImages } from './js/render-functions';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const form = document.querySelector('.search-form');
+// Изменено на правильный селектор
+const form = document.querySelector('.js-search');
 const loader = document.querySelector('.loader');
 const gallery = document.querySelector('.gallery');
 
 form.addEventListener('submit', async (event) => {
-  event.preventDefault(); // виправлення тут
+  event.preventDefault(); // предотвращаем перезагрузку страницы
 
-  const query = event.currentTarget.elements.searchQuery.value.trim();
+  const query = event.currentTarget.elements.search.value.trim(); // Измените 'searchQuery' на 'search'
 
   if (!query) {
     iziToast.error({ title: 'Error', message: 'Please enter a search query' });
@@ -18,7 +19,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   loader.style.display = 'block';
-  gallery.innerHTML = ''; 
+  gallery.innerHTML = '';
 
   try {
     const data = await fetchImages(query);
@@ -31,6 +32,6 @@ form.addEventListener('submit', async (event) => {
     }
   } catch (error) {
     loader.style.display = 'none';
-    iziToast.error({ title: 'Error', message: error.message }); 
+    iziToast.error({ title: 'Error', message: error.message });
   }
 });
