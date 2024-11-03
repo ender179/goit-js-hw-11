@@ -1,56 +1,36 @@
+import { fetchImages } from './js/pixabay-api';
+import { renderImages } from './js/render-functions';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-import { getPictures } from './js/pixabay-api';
-import { createMarkup } from './js/render-functions';
-
-
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-
-const formSearch = document.querySelector('.js-search');
-const listImages = document.querySelector('.gallery');
+const form = document.querySelector('.search-form');
 const loader = document.querySelector('.loader');
+const gallery = document.querySelector('.gallery');
 
-loader.style.display = 'none';
-formSearch.addEventListener('submit', onSearch);
+form.addEventListener('submit', async (event) => {
+  event.preventDefault(); // виправлення тут
 
-function onSearch(event) {
-  event.preventDefault();
-  listImages.innerHTML = '';
+  const query = event.currentTarget.elements.searchQuery.value.trim();
+
+  if (!query) {
+    iziToast.error({ title: 'Error', message: 'Please enter a search query' });
+    return;
+  }
+
   loader.style.display = 'block';
+  gallery.innerHTML = ''; 
 
-  const inputValue = event.target.elements.search.value;
+  try {
+    const data = await fetchImages(query);
+    loader.style.display = 'none';
 
-  getPictures(inputValue)
-    .then(data => {
-      loader.style.display = 'none';
-
-      if (!data.hits.length) {
-        iziToast.error({
-          title: 'Error',
-          message: 'Sorry, there are no images matching your search query. Please try again!',
-        });
-
-      }
-
-      listImages.innerHTML = createMarkup(data.hits);
-    const refreshPage = new SimpleLightbox('.gallery a', {
-        captions: true,
-        captionsData: 'alt',
-        captionDelay: 250,
-      });
-
-      refreshPage.refresh();
-
-      formSearch.reset();
-
-    })
-
-    .catch((err) => {
-      loader.style.display = 'none';
-      console.log(err);
-
-    });
-
-}
+    if (data.hits.length === 0) {
+      iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });
+    } else {
+      renderImages(data.hits);
+    }
+  } catch (error) {
+    loader.style.display = 'none';
+    iziToast.error({ title: 'Error', message: error.message }); 
+  }
+});
