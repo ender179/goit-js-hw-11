@@ -1,34 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home-work 11</title>
+import { getPictures } from './js/pixabay-api';
+import { createMarkup } from './js/render-functions';
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/izitoast.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css" />
-    <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/style.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/izitoast.min.js"></script>
-</head>
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-<body>
-    <form class="js-search search">
-        <input class="input-search" name="search" type="text" placeholder="Search for images..." />
-        <button class="btn-search" type="submit">Search</button>
-    </form>
+const formSearch = document.querySelector('.js-search');
+const listImages = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
-    <div class="container">
-        <span class="loader"></span>
-        <ul class="gallery"></ul>
-    </div>
+loader.style.display = 'none';
+formSearch.addEventListener('submit', onSearch);
 
-    <script type="module" src="./main.js"></script>
-</body>
+function onSearch(event) {
+  event.preventDefault();
+  listImages.innerHTML = '';
+  loader.style.display = 'block';
 
-</html>
+  const inputValue = event.target.elements.search.value;
+
+  getPictures(inputValue)
+    .then(data => {
+      loader.style.display = 'none';
+
+      if (!data.hits.length) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Sorry, there are no images matching your search query. Please try again!',
+        });
+
+      }
+
+      listImages.innerHTML = createMarkup(data.hits);
+    const refreshPage = new SimpleLightbox('.gallery a', {
+        captions: true,
+        captionsData: 'alt',
+        captionDelay: 250,
+      });
+
+      refreshPage.refresh();
+
+      formSearch.reset();
+
+    })
+
+    .catch((err) => {
+      loader.style.display = 'none';
+      console.log(err);
+
+    });
+
+}
