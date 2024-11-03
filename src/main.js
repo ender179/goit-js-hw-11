@@ -8,9 +8,8 @@ const loader = document.querySelector('.loader');
 const gallery = document.querySelector('.gallery');
 
 form.addEventListener('submit', async (event) => {
-  event.
-  even
-preventDefault();
+  event.preventDefault(); // виправлення тут
+
   const query = event.currentTarget.elements.searchQuery.value.trim();
 
   if (!query) {
@@ -22,9 +21,7 @@ preventDefault();
   gallery.innerHTML = ''; 
 
   try {
-    
-  
-const data = await fetchImages(query);
+    const data = await fetchImages(query);
     loader.style.display = 'none';
 
     if (data.hits.length === 0) {
@@ -32,9 +29,7 @@ const data = await fetchImages(query);
     } else {
       renderImages(data.hits);
     }
-  } 
-   
-catch (error) {
+  } catch (error) {
     loader.style.display = 'none';
     iziToast.error({ title: 'Error', message: error.message }); 
   }
