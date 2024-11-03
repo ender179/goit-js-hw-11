@@ -1,38 +1,41 @@
-// main.js  
-import { fetchImages } from './js/pixabay-api.js';  
-import { renderImages, showAlert } from './js/render-functions.js';  
-import iziToast from 'izitoast';  
-import 'izitoast/dist/css/iziToast.min.css';  
-import SimpleLightbox from 'simplelightbox';  
-import 'simplelightbox/dist/simple-lightbox.min.css';  
+import { fetchImages } from './js/pixabay-api';
+import { renderImages } from './js/render-functions';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-// Ініціалізація бібліотеки SimpleLightbox  
-const gallery = new SimpleLightbox('.gallery a');  
+const form = document.querySelector('.search-form');
+const loader = document.querySelector('.loader');
+const gallery = document.querySelector('.gallery');
 
-// Одержуємо елементи з HTML  
-const form = document.querySelector('.js-search');  
-const loader = document.querySelector('.loader');  
+form.addEventListener('submit', async (event) => {
+  event.
+  even
+preventDefault();
+  const query = event.currentTarget.elements.searchQuery.value.trim();
 
-// Ініціалізація лоадера (приховати лоадер на початку)  
-loader.classList.remove('show');  
+  if (!query) {
+    iziToast.error({ title: 'Error', message: 'Please enter a search query' });
+    return;
+  }
 
-// Додаємо обробник події для форми  
-form.addEventListener('submit', async (event) => {  
-    event.preventDefault(); // Зупиняємо стандартну обробку форми  
+  loader.style.display = 'block';
+  gallery.innerHTML = ''; 
 
-    const query = event.target.elements.search.value.trim();  
-    if (query === '') {  
-        return showAlert('Please enter a search term!'); // Попередження, якщо поле пусте  
-    }  
+  try {
+    
+  
+const data = await fetchImages(query);
+    loader.style.display = 'none';
 
-    loader.classList.add('show'); // Показуємо індикатор завантаження  
-    try {  
-        const images = await fetchImages(query); // Виклик до API для отримання зображень  
-        renderImages(images); // Рендеримо отримані зображення  
-        gallery.refresh(); // Оновлюємо SimpleLightbox  
-    } catch (error) {  
-        showAlert('Failed to fetch images.'); // Помилка при отриманні зображень  
-    } finally {  
-        loader.classList.remove('show'); // Сховуємо індикатор завантаження  
-    }  
+    if (data.hits.length === 0) {
+      iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });
+    } else {
+      renderImages(data.hits);
+    }
+  } 
+   
+catch (error) {
+    loader.style.display = 'none';
+    iziToast.error({ title: 'Error', message: error.message }); 
+  }
 });
