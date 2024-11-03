@@ -1,36 +1,34 @@
-import { fetchImages } from './js/pixabay-api';
-import { renderImages } from './js/render-functions';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+<!DOCTYPE html>
+<html lang="en">
 
-const form = document.querySelector('.search-form');
-const loader = document.querySelector('.loader');
-const gallery = document.querySelector('.gallery');
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home-work 11</title>
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault(); // виправлення тут
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/izitoast.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/style.css" />
 
-  const query = event.currentTarget.elements.searchQuery.value.trim();
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/izitoast.min.js"></script>
+</head>
 
-  if (!query) {
-    iziToast.error({ title: 'Error', message: 'Please enter a search query' });
-    return;
-  }
+<body>
+    <form class="js-search search">
+        <input class="input-search" name="search" type="text" placeholder="Search for images..." />
+        <button class="btn-search" type="submit">Search</button>
+    </form>
 
-  loader.style.display = 'block';
-  gallery.innerHTML = ''; 
+    <div class="container">
+        <span class="loader"></span>
+        <ul class="gallery"></ul>
+    </div>
 
-  try {
-    const data = await fetchImages(query);
-    loader.style.display = 'none';
+    <script type="module" src="./main.js"></script>
+</body>
 
-    if (data.hits.length === 0) {
-      iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });
-    } else {
-      renderImages(data.hits);
-    }
-  } catch (error) {
-    loader.style.display = 'none';
-    iziToast.error({ title: 'Error', message: error.message }); 
-  }
-});
+</html>
