@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener('submit', async (event) => {  
     event.preventDefault(); // Зупиняємо стандартну поведінку  
-
-    const query = event.currentTarget.elements.searchQuery.value.trim();  
+ 
+    const query = event.currentTarget.elements.searchQuery.value.trim();
 
     if (!query) {  
       iziToast.error({ title: 'Error', message: 'Please enter a search query' });  
