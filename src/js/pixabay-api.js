@@ -9,6 +9,7 @@ export const fetchImages = async (query) => {
             throw new Error('Network response was not ok');  
         }  
         const data = await response.json();  
+       
         console.log('Fetched data:', data); // Можна залишити для перевірки
         return data; // Повертаємо весь об'єкт data
     } catch (error) {  
@@ -21,6 +22,7 @@ export const fetchImages = async (query) => {
 const getImages = async (query) => {
     try {
         const imagesData = await fetchImages(query);
+    
         const imageHits = imagesData.hits; // Дістаємо масив зображень
         console.log('Image hits:', imageHits); // Можна працювати з масивом
     } catch (error) {
