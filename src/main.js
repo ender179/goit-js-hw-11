@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gallery.innerHTML = '';   
 
         try {  
-            const data = await fetchImages(query);  
+            const data = await fetchImages(query); // Отримуємо дані
 
             if (!data || !Array.isArray(data.hits)) {
                 iziToast.error({ title: 'Error', message: 'Unexpected response format' });
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (data.hits.length === 0) {  
                 iziToast.info({ message: 'Sorry, there are no images matching your search query. Please try again!' });  
             } else {  
-                renderImages(data.hits);  
+                renderImages(data.hits); // Передаємо зображення для рендерингу
             }  
         } catch (error) {  
             iziToast.error({ title: 'Error', message: error.message });   
