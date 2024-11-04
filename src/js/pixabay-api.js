@@ -9,15 +9,24 @@ export const fetchImages = async (query) => {
             throw new Error('Network response was not ok');  
         }  
         const data = await response.json();  
-        console.log('Fetched data:', data); // Додано для перевірки
-        if (Array.isArray(data.hits)) {
-            return data.hits; // Повертаємо масив зображень  
-        } else {
-            console.error('Expected data.hits to be an array:', data.hits);
-            return []; // Повертаємо порожній масив у випадку помилки
-        }
+        console.log('Fetched data:', data); // Можна залишити для перевірки
+        return data; // Повертаємо весь об'єкт data
     } catch (error) {  
         console.error('Fetch error:', error);  
         throw error;  
     }  
 };
+
+// Приклад використання
+const getImages = async (query) => {
+    try {
+        const imagesData = await fetchImages(query);
+        const imageHits = imagesData.hits; // Дістаємо масив зображень
+        console.log('Image hits:', imageHits); // Можна працювати з масивом
+    } catch (error) {
+        console.error('Error fetching images:', error);
+    }
+};
+
+// Виклик функції
+getImages('nature'); // Замість 'nature' ви можете вказати будь-який запит
