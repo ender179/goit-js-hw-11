@@ -1,10 +1,11 @@
-/* style.css */
-
 /* Стили для галереи изображений */
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    /* Используем грид для большего контроля */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Отзывчивая сетка */
     gap: 15px;
+    /* Отступы между изображениями */
     list-style: none;
     padding: 0;
     margin: 0;
@@ -13,7 +14,6 @@
 
 .gallery-item {
     position: relative;
-    width: 250px;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -43,4 +43,24 @@
 
 .info p {
     margin: 5px 0;
+}
+
+/* Медиазапросы для адаптивности */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /* Менше кол-во колонок на меньших экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        grid-template-columns: 1fr;
+        /* Одна колонка на маленьких экранах */
+    }
+
+    .info {
+        font-size: 12px;
+        /* Уменьшаем шрифт на маленьких экранах */
+    }
 }
