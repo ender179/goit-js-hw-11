@@ -16,14 +16,15 @@
     cursor: pointer;
     border-radius: 4px;
     margin-left: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .btn-search:hover {
     background-color: #555;
+    transform: scale(1.05); /* Увеличение кнопки при наведении */
 }
 
-/* Общие стили для контейнера и галереи */
+/* Общие стили для контейнера и загрузчика */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -41,24 +42,22 @@
     margin: 20px auto;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
+/* Анимация вращения для загрузчика */
+@-webkit-keyframes spin { /* Для Chrome, Safari */
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Стили для галереи изображений */
 .gallery {
     display: grid;
-    /* Использование сетки */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    /* Отзывчивая сетка */
-    gap: 20px;
-    /* Отступы между элементами */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Адаптивная сетка */
+    gap: 20px; /* Отступы между элементами */
     padding: 20px;
 }
 
@@ -67,40 +66,27 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
-    background-color: white;
+    background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Стили для изображений */
 .gallery-image {
-    width: 100%;
-    /* Изображения занимают всю ширину контейнера */
-    height: auto;
-    /* Сохраняем пропорции */
+    width: 100%; /* Ширина контейнера */
+    height: auto; /* Сохранение пропорций */
 }
 
 /* Стили для информации об изображении */
 .info {
-    text-align: center;
-    /* Выравнивание текста по центру */
+    text-align: center; /* Центровка текста */
     padding: 10px;
-    font-size: 14px;
-    /* Более мелкий шрифт для информации */
+    font-size: 14px; /* Мелкий шрифт */
     background-color: #f9f9f9;
 }
 
+/* Стили для заголовка */
 .title {
     text-align: center;
     margin: 20px 0;
     font-size: 24px;
-}
-
-/* Дополнительные стили для кнопки */
-.btn-search {
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.btn-search:hover {
-    transform: scale(1.05);
-    /* Увеличение кнопки при наведении */
 }
