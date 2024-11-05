@@ -1,3 +1,8 @@
+/* Глобальные стили */
+* {
+    box-sizing: border-box;
+}
+
 /* Стили для галереи изображений */
 .gallery {
     display: grid;
@@ -6,7 +11,6 @@
     /* Отзывчивая сетка */
     gap: 15px;
     /* Отступы между изображениями */
-    list-style: none;
     padding: 0;
     margin: 0;
     justify-content: center;
@@ -17,11 +21,12 @@
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gallery-item:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .gallery-item img {
@@ -37,8 +42,13 @@
     color: #fff;
     padding: 10px;
     width: 100%;
-    box-sizing: border-box;
     font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .info {
+    opacity: 1;
 }
 
 .info p {
@@ -49,7 +59,7 @@
 @media (max-width: 768px) {
     .gallery {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        /* Менше кол-во колонок на меньших экранах */
+        /* Меньше колонок на средних экранах */
     }
 }
 
