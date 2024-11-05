@@ -11,7 +11,6 @@ export const fetchImages = async (query) => {
         const data = await response.json();  
         return data; // Повертаємо весь об'єкт data
     } catch (error) {  
-        console.error('Fetch error:', error);  
         throw error;  
     }  
 };
